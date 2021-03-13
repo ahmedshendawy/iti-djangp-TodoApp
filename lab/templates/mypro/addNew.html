@@ -1,0 +1,20 @@
+{% extends "mypro/layout.html" %}
+{% block body %}
+    <h2>Add New task</h2>
+<form action="{% url 'addNew' %}" method="POST">
+    {% csrf_token %}
+        <input type="text" name="task">
+        <button type="sumbit">Add task</button>
+    </form>
+<ul>
+    {% for task in tasks %}
+        <li>{{ task }} 
+            <form action="{% url 'delete' %}" method = "POST">
+                {% csrf_token %}
+            <button type="sumbit" name="deleteTask" value="{{ task }}">Delete</button>
+            </form>  
+        </li> 
+    {% endfor %}
+</ul>
+
+{% endblock %}

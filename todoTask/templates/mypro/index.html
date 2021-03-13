@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of tasks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <form action="{% url 'addNew' %}" method="POST">
+        {% csrf_token %}
+        <h2>Add Tasks</h2>
+        Name:
+        <input name="taskTitle">
+        Description:
+        <input name="taskDescr">
+        Priority:
+        <input name="taskPrioirty">
+        <button name="addTask" type="submit">Add Task</button>
+    </form>
+
+    <br/>
+    <h2>Todo List</h2>
+    <table class="table table-success table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Prioirty</th>
+                <th>Action</th>
+            </tr>
+</thead>
+    <tbody>
+            {% for task in tasks %}
+            <form action="{% url 'updateTask' task.id %}" method="POST"> {% csrf_token %}
+            <tr>
+                <td><input name="title" value={{ task.title }}></td>
+                <td><input name="descr" value={{ task.descr }}></td>
+                <td><input name="prioirty" value={{ task.prioirty }}></td>
+                <td>
+                    <button><a href="{% url 'deleteTask' task.id %}" style="text-decoration:none">Delete</a></button>
+                    <button name= updateTask type="submit">Update</button>
+                </td>
+            </tr>
+            </form>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
